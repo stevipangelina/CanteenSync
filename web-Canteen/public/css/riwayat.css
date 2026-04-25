@@ -1,0 +1,125 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    display: flex;
+    background: #c9c6d8;
+}
+
+.toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #9fa4a1;
+    padding: 20px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.hide {
+    margin-left: -250px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 40px;
+    width: calc(100% - 250px);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.sidebar.hide ~ .main-content {
+    margin-left: 0;
+    width: 100%;
+}
+
+.logo {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.logo img {
+    width: 120px;
+}
+
+.menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-40px);
+}
+
+.menu-item {
+    width: 80%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 20px;
+    background: #c8d0c9;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+
+.menu-item.active {
+    background: #7fbf7f;
+    color: white;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+.filter {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin: 20px;
+}
+
+.filter select {
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.riwayat-container {
+    background: #cfd8cf;
+    padding: 20px;
+    border-radius: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.riwayat-card {
+    background: #ddd;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: left;
+    position: relative;
+}
+
+.status {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.menunggu { background: gold; }
+.diproses { background: skyblue; }
+.dibatalkan { background: red; color: white; }
+.selesai { background: green; color: white; }
