@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Akun extends Authenticatable
 {
     protected $table = 'akun'; 
 
@@ -12,10 +12,17 @@ class User extends Authenticatable
         'nama',
         'email',
         'password',
+        'no_telepon',
         'role'
     ];
 
     protected $hidden = [
         'password'
     ];
+
+    // biar login pakai "nama"
+    public function getAuthIdentifierName()
+    {
+        return 'nama';
+    }
 }
