@@ -15,7 +15,7 @@
 
     <img src="{{ asset('images/logo.png') }}" class="logo">
 
-    <form method="POST" action="/login">
+    <form method="GET" action="{{ route('dashboard') }}">
         @csrf
         <input type="text" name="username" placeholder="Nama User">
         <input type="password" name="password" placeholder="Password">
