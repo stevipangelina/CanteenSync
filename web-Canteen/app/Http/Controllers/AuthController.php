@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Akun;
+use App\Models\Kantin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,10 +27,14 @@ class AuthController extends Controller
         
         # login khusus kantin
         if ($user->role == 'kantin') {
+
             if ($request->password == $user->password) {
                 Auth::login($user);
-                return redirect('/dashboard')->with('success', 'Login kantin berhasil');
+                $kantin = Kantin::where('id_user', $user->id)->first();
+
+                return redirect('/menu/' . $kantin->id_kantin) ->with('success', 'Login kantin berhasil');
             }
+
             return back()->with('error','Password salah');
         }
 
@@ -38,6 +43,7 @@ class AuthController extends Controller
             Auth::login($user);
             return redirect('/dashboard')->with('success', 'Login berhasil');
         }
+        
         return back()->with('error','Password salah');
     }
     
