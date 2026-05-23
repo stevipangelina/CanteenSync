@@ -36,3 +36,12 @@ Route::post('/profil/update', [ProfileController::class, 'update']) ->name('prof
 
 Route::get('/riwayat', [RiwayatController::class, 'index'] )->middleware('auth')->name('riwayat');
 Route::put('/pesanan/batal/{id}', [RiwayatController::class, 'batalkan'])->middleware('auth')->name('pesanan.batal');
+
+Route::get('/menu/{id}',[MenuController::class, 'index'])->name('kantin.menu.index');
+Route::get('/menu/{id}/create',[MenuController::class, 'create'])->name('kantin.menu.create');
+Route::post('/menu/{id}/store',[MenuController::class, 'store'])->name('kantin.menu.store');
+Route::get('/menu/{id}/edit/{id_menu}',[MenuController::class, 'edit'])->name('kantin.menu.edit');
+Route::put('/menu/{id}/update/{id_menu}',[MenuController::class, 'update'])->name('kantin.menu.update');
+Route::delete('/menu/{id}/delete/{id_menu}',[MenuController::class, 'destroy'])->name('kantin.menu.delete');
+
+
