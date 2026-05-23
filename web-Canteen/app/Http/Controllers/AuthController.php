@@ -4,45 +4,56 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Akun;
+use App\Models\Kantin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // LOGIN VIEW
     public function showLogin()
     {
         return view('login');
     }
 
-    // LOGIN PROCESS 
+    
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
+        $request->validate(['username' => 'required', 'password' => 'required']);
+        $user = Akun::where('nama', $request->username)->first();
+        
+        if (!$user) {
+            return back()->with('error','Username tidak ditemukan');
+        }
+        
+            # login khusus kantin
+    if ($user->role == 'kantin') {
 
-        $credentials = [
-            'nama' => $request->username,
-            'password' => $request->password
-        ];
+        if ($request->password == $user->password) {
+            Auth::login($user);
+            $kantin = Kantin::where('id_user', $user->id)->first();
 
-        if (Auth::attempt($credentials)) {
-            return redirect('/dashboard')->with('success', 'Login berhasil');
+            return redirect('/menu/' . $kantin->id_kantin) ->with('success', 'Login kantin berhasil');
         }
 
-        return back()->with('error', 'Username atau password salah');
+        return back()->with('error','Password salah');
     }
 
-    // REGISTER VIEW 
+        // login khusus mahasiswa
+        if (Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+            return redirect('/dashboard')->with('success', 'Login berhasil');
+        }
+        
+        return back()->with('error','Password salah');
+    }
+    
+    # Registrasi
     public function showRegister()
     {
         return view('register');
     }
-
-    //  REGISTER PROCESS 
-        public function register(Request $request)
+        
+    public function register(Request $request)
     {
         Akun::create([
             'nama' => $request->username,
@@ -51,17 +62,6 @@ class AuthController extends Controller
             'no_telepon' => $request->phone,
             'role' => 'mahasiswa'
         ]);
-
         return redirect('/login')->with('success','Berhasil daftar');
-    }
-
-        // LOGOUT 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
     }
 }
