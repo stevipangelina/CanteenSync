@@ -18,18 +18,14 @@
         <img src="{{ asset('images/logo.png') }}">
     </div>
     <div class="menu">
-
-        <a href="{{ route('dashboard') }}"
-           class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-           Pilih Kantin
+        <a href="{{ url('/dashboard') }}">
+            <button> Pilihan Kantin </button>
         </a>
-        <a href="{{ route('riwayat') }}"
-           class="menu-item {{ request()->routeIs('riwayat') ? 'active' : '' }}">
-           Riwayat Pesanan
+        <a href="{{ route('riwayat') }}">
+            <button> Riwayat Pesanan </button>
         </a>
-        <a href="{{ route('profil') }}"
-           class="menu-item {{ request()->routeIs('profil') ? 'active' : '' }}">
-           Profil
+        <a href="{{ route('profil') }}">
+            <button> Profil </button>
         </a>
     </div>
 </div>
