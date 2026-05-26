@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
+    <title> Profil </title>
 
     <link rel="stylesheet" href="{{ asset('css/profil.css') }}">
 </head>
@@ -32,48 +32,57 @@
 
 <div class="main-content">
     <h1>Profil</h1>
+    @if(session('success'))
+        <div class="alert-success">  {{ session('success') }} </div>
+    @endif
+
     <div class="profile-card">
         <div class="profile-icon">
             👤
         </div>
 
-        <form>
+        <form
+            action="{{ route('profil.update') }}"
+            method="POST">
+            @csrf
+
             <div class="form-row">
                 <div class="form-group">
-                    <label>Nama User</label>
+                    <label> Nama User </label>
                     <div class="input-box">
-                        <input type="text" value="Tanistechlabs">
-                        <span>✎</span>
+                        <input
+                            type="text" name="nama" value="{{ $user->nama }}">
+                        <span> ✎ </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Password</label>
+                    <label> Password Baru </label>
                     <div class="input-box">
-                        <input type="text" value="Tanistechlabs2026">
-                        <span>✎</span>
+                        <input type="password" name="password" placeholder="Kosongkan jika tidak diubah">
+                        <span> ✎ </span>
                     </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>Email</label>
+                    <label> Email </label>
                     <div class="input-box">
-                        <input type="email" value="Tanistechlabs@gmail.com">
-                        <span>✎</span>
+                        <input type="email" name="email" value="{{ $user->email }}">
+                        <span> ✎ </span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>No. handphone</label>
+                    <label> No. Handphone </label>
                     <div class="input-box">
-                        <input type="text" value="09876543210">
-                        <span>✎</span>
+                        <input type="text" name="no_telepon" value="{{ $user->no_telepon }}">
+                        <span> ✎ </span>
                     </div>
                 </div>
-
             </div>
+
             <button type="submit" class="save-btn">
                 Simpan Perubahan
             </button>

@@ -19,29 +19,33 @@ body{
     position: absolute;
     top: 15px;
     left: 18px;
-    text-decoration: none;
+    border: none;
+    background: transparent;
     color: black;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
 }
 
 .header{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 25px;
 }
 
 .header h2{
-    text-align: center;
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     line-height: 1.4;
 }
 
 .header img{
+    position: absolute;
+    right: 10px;
+    top: 0;
+
     width: 70px;
     height: 70px;
     object-fit: contain;

@@ -14,55 +14,119 @@ class AuthController extends Controller
     {
         return view('login');
     }
-
     public function login(Request $request)
     {
-        $request->validate(['username' => 'required', 'password' => 'required']);
-        $user = Akun::where('nama', $request->username)->first();
-        
-        if (!$user) {
-            return back()->with('error','Username tidak ditemukan');
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
+        $user = Akun::where(
+            'nama',
+            $request->username
+        )->first();
+
+        if (!$user)
+        {
+            return back()->with(
+                'error',
+                'Username tidak ditemukan'
+            );
         }
-        
-            # login khusus kantin
-    if ($user->role == 'kantin') {
+        if ($user->role == 'kantin')
+        {
+            if (
+                Hash::check(
+                    $request->password,
+                    $user->password
+                )
+            )
+            {
+                Auth::login($user);
 
-        if ($request->password == $user->password) {
+                $kantin = Kantin::where(
+                    'id_user',
+                    $user->id
+                )->first();
+
+                if (!$kantin)
+                {
+                    return back()->with(
+                        'error',
+                        'Data kantin tidak ditemukan'
+                    );
+                }
+
+                return redirect(
+                    '/menu/' . $kantin->id_kantin
+                )->with(
+                    'success',
+                    'Login kantin berhasil'
+                );
+            }
+
+            return back()->with(
+                'error',
+                'Password salah'
+            );
+        }
+
+        if (
+            Hash::check(
+                $request->password,
+                $user->password
+            )
+        )
+        {
             Auth::login($user);
-            $kantin = Kantin::where('id_user', $user->id)->first();
-            return redirect('/menu/' . $kantin->id_kantin) ->with('success', 'Login kantin berhasil');
+            return redirect('/dashboard')
+                ->with(
+                    'success',
+                    'Login berhasil'
+                );
         }
 
-        return back()->with('error','Password salah');
+        return back()->with(
+            'error',
+            'Password salah'
+        );
     }
-
-        // login khusus mahasiswa
-        if (Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            return redirect('/dashboard')->with('success', 'Login berhasil');
-        }
-        
-        return back()->with('error','Password salah');
-    }
-    
-    # Registrasi
     public function showRegister()
     {
         return view('register');
     }
-        
     public function register(Request $request)
-
     {
+        $request->validate([
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:3',
+            'phone' => 'required'
+        ]);
+
         Akun::create([
             'nama' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make(
+                $request->password
+            ),
             'no_telepon' => $request->phone,
             'role' => 'mahasiswa'
         ]);
-        return redirect('/login')->with('success','Berhasil daftar');
-    }
 
+        return redirect('/login')->with(
+            'success',
+            'Berhasil daftar'
+        );
+    }
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/login')
+            ->with(
+                'success',
+                'Berhasil logout'
+            );
+    }
 }

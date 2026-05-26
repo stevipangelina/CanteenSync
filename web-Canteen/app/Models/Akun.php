@@ -19,10 +19,4 @@ class Akun extends Authenticatable
     protected $hidden = [
         'password'
     ];
-
-    // biar login pakai "nama"
-    public function getAuthIdentifierName()
-    {
-        return 'nama';
-    }
 }

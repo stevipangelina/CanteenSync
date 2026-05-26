@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <a href="{{ url('/kantin/'.$id_kantin) }}" class="back-btn">←</a>
+    <button onclick="history.back()" class="back-btn"> ← </button>
     <div class="header">
         <h2>Keranjang Makanan<br>Kantin {{ $id_kantin }}</h2>
         <img src="{{ asset('images/logo.png') }}" alt="">
