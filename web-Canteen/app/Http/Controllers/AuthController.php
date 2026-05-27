@@ -97,19 +97,18 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:3',
-            'phone' => 'required'
+        $request->validate([ 
+            'username' => 'required|unique:akun,nama',
+            'email' => ['required', 'email', 'unique:akun,email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/' ],
+            'password' => 'required|min:3', 'phone' => [ 'required', 'regex:/^08[0-9]{8,13}$/' ] ],
+            [ 'email.regex' => 'Email harus menggunakan @gmail.com', 
+            'phone.regex' => 'Nomor harus diawali 08 dan hanya angka' 
         ]);
 
         Akun::create([
             'nama' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make(
-                $request->password
-            ),
+            'password' => Hash::make( $request->password ),
             'no_telepon' => $request->phone,
             'role' => 'mahasiswa'
         ]);
