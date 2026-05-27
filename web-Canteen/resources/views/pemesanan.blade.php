@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-    <a href="{{ route('keranjang.index') }}" class="back-btn">←</a>
+    <button onclick="history.back()" class="back-btn"> ← </button>
     <div class="header">
         <h2>
             Reservasi Pengambilan dan
@@ -94,15 +94,15 @@
         <div class="radio-group pembayaran">
             <label>
                 <input type="radio"
-                       name="metode"
+                       name= "metode_pembayaran"
                        value="dinein">
 
-                Dine In (Kasir)
+                Tunai (Kasir)
             </label>
 
             <label>
                 <input type="radio"
-                       name="metode"
+                       name= "metode_pembayaran"
                        value="ewallet"
                        checked>
                 E-Wallet

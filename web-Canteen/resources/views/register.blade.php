@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-
-    <!-- CSS -->
+    <title> Register </title>
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 </head>
-<body>
 
+<body>
 <div class="container">
     <div class="login-box">
-        
-        <h2>REGISTER</h2>
-
-        <!-- Logo -->
+        <h2> REGISTER </h2>
         <img src="{{ asset('images/logo.png') }}" class="logo">
+        @if($errors->any())
+            <div class="alert-error">
+                {{ $errors->first() }}
+            </div>
+        @endif
 
-        <!-- Form Register -->
-        <form action="#" method="POST">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
             <input type="text" name="username" placeholder="Nama User" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="text" name="phone" placeholder="No Handphone" required>
-
-            <button type="submit">REGISTER</button>
+            <button type="submit"> REGISTER </button>
         </form>
 
-        <!-- Kembali ke login -->
         <p class="register">
-            Sudah punya akun? 
-            <a href="{{ route('login') }}">Login</a>
+            Sudah punya akun?
+            <a href="{{ route('login') }}"> Login </a>
         </p>
-
     </div>
 </div>
 

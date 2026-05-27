@@ -10,17 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-be/riwayat_profil
-    // LOGIN VIEW
-
-main
     public function showLogin()
     {
         return view('login');
     }
-
-be/riwayat_profil
-    // LOGIN PROCESS 
     public function login(Request $request)
     {
         $request->validate([
@@ -28,86 +21,111 @@ be/riwayat_profil
             'password' => 'required'
         ]);
 
-        $credentials = [
-            'nama' => $request->username,
-            'password' => $request->password
-        ];
+        $user = Akun::where(
+            'nama',
+            $request->username
+        )->first();
 
-        if (Auth::attempt($credentials)) {
-            return redirect('/dashboard')->with('success', 'Login berhasil');
-
-    
-    public function login(Request $request)
-    {
-        $request->validate(['username' => 'required', 'password' => 'required']);
-        $user = Akun::where('nama', $request->username)->first();
-        
-        if (!$user) {
-            return back()->with('error','Username tidak ditemukan');
-main
+        if (!$user)
+        {
+            return back()->with(
+                'error',
+                'Username tidak ditemukan'
+            );
         }
-        
-        # login khusus kantin
-        if ($user->role == 'kantin') {
-
-            if ($request->password == $user->password) {
+        if ($user->role == 'kantin')
+        {
+            if (
+                Hash::check(
+                    $request->password,
+                    $user->password
+                )
+            )
+            {
                 Auth::login($user);
-                $kantin = Kantin::where('id_user', $user->id)->first();
 
-be/riwayat_profil
-    // REGISTER VIEW 
-    public function showRegister()
-    {
-        return view('register');
-    }
+                $kantin = Kantin::where(
+                    'id_user',
+                    $user->id
+                )->first();
 
-    //  REGISTER PROCESS 
-        public function register(Request $request)
+                if (!$kantin)
+                {
+                    return back()->with(
+                        'error',
+                        'Data kantin tidak ditemukan'
+                    );
+                }
 
-                return redirect('/menu/' . $kantin->id_kantin) ->with('success', 'Login kantin berhasil');
+                return redirect(
+                    '/menu/' . $kantin->id_kantin
+                )->with(
+                    'success',
+                    'Login kantin berhasil'
+                );
             }
 
-            return back()->with('error','Password salah');
+            return back()->with(
+                'error',
+                'Password salah'
+            );
         }
 
-        // login khusus mahasiswa
-        if (Hash::check($request->password, $user->password)) {
+        if (
+            Hash::check(
+                $request->password,
+                $user->password
+            )
+        )
+        {
             Auth::login($user);
-            return redirect('/dashboard')->with('success', 'Login berhasil');
+            return redirect('/dashboard')
+                ->with(
+                    'success',
+                    'Login berhasil'
+                );
         }
-        
-        return back()->with('error','Password salah');
+
+        return back()->with(
+            'error',
+            'Password salah'
+        );
     }
-    
-    # Registrasi
     public function showRegister()
     {
         return view('register');
     }
-        
     public function register(Request $request)
-main
     {
+        $request->validate([ 
+            'username' => 'required|unique:akun,nama',
+            'email' => ['required', 'email', 'unique:akun,email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/' ],
+            'password' => 'required|min:3', 'phone' => [ 'required', 'regex:/^08[0-9]{8,13}$/' ] ],
+            [ 'email.regex' => 'Email harus menggunakan @gmail.com', 
+            'phone.regex' => 'Nomor harus diawali 08 dan hanya angka' 
+        ]);
+
         Akun::create([
             'nama' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make( $request->password ),
             'no_telepon' => $request->phone,
             'role' => 'mahasiswa'
         ]);
-        return redirect('/login')->with('success','Berhasil daftar');
-    }
-be/riwayat_profil
 
-        // LOGOUT 
-    public function logout(Request $request)
+        return redirect('/login')->with(
+            'success',
+            'Berhasil daftar'
+        );
+    }
+    public function logout()
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')
+            ->with(
+                'success',
+                'Berhasil logout'
+            );
     }
-
-main
 }
