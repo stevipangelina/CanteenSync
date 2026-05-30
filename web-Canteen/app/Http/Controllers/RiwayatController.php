@@ -17,24 +17,14 @@ class RiwayatController extends Controller
 
     public function batalkan($id)
     {
-        $pesanan = \App\Models\DetailPesanan::where('id_pesanan',$id)->get();
-
-        foreach($pesanan as $detail)
+        $pesanan = \App\Models\Pesanan::findOrFail($id);
+        if($pesanan->status != 'menunggu')  // hanya boleh dibatalkan saat masih menunggu
         {
-            if($detail->riwayat){return back()->with('error','Pesanan sedang diproses dan tidak bisa dibatalkan');}
+            return back()->with('error', 'Pesanan sudah diproses dan tidak dapat dibatalkan');
         }
 
-        foreach($pesanan as $detail)
-        {
-            \App\Models\DetailRiwayat::create([
-                'id_detail' => $detail->id_detail,
-                'id_menu' => $detail->id_menu,
-                'jumlah' => $detail->jumlah,
-                'harga' => $detail->harga,
-                'subtotal' => $detail->subtotal,
-                'status' => 'dibatalkan'
-            ]);
-        }
+        \App\Models\DetailPesanan::where('id_pesanan',$id)->delete();  // hapus detail pesanan
+        $pesanan->delete(); // hapus pesanan utama
 
         return back()->with('success','Pesanan berhasil dibatalkan');
     }

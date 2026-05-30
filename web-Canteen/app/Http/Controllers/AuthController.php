@@ -23,15 +23,19 @@ be/riwayat_profil
     // LOGIN PROCESS 
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
+        $request->validate(['username' => 'required', 'password' => 'required']);
+        $user = Akun::where('nama', $request->username)->first();
+        
+        if (!$user) {
+            return back()->with('error','Username tidak ditemukan');
+        }
+        
+            # login khusus kantin
+    if ($user->role == 'kantin') {
 
-        $credentials = [
-            'nama' => $request->username,
-            'password' => $request->password
-        ];
+        if ($request->password == $user->password) {
+            Auth::login($user);
+            $kantin = Kantin::where('id_user', $user->id)->first();
 
         if (Auth::attempt($credentials)) {
             return redirect('/dashboard')->with('success', 'Login berhasil');
