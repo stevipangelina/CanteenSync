@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\DetailPesanan;
 use App\Models\DetailRiwayat;
@@ -10,9 +11,27 @@ class KantinController extends Controller
     public function dashboard()
     {
         $canteens = [
+be/riwayat_profil
             ['id' => 1, 'name' => 'Kantin A', 'image' => 'canteen1.png'],
             ['id' => 2, 'name' => 'Kantin B','image' => 'canteen2.png'],
             ['id' => 3, 'name' => 'Kantin C', 'image' => 'canteen3.png'],
+
+            [
+                'id' => 1,
+                'name' => 'Kantin A',
+                'image' => 'canteen1.png'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Kantin B',
+                'image' => 'canteen2.png'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Kantin C',
+                'image' => 'canteen3.png'
+            ],
+main
         ];
 
         return view('dashboard', compact('canteens'));
