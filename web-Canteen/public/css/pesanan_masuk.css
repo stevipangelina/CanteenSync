@@ -1,0 +1,256 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#e9e3f5;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.page-wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    height:100vh;
+    background:#a7a7a7;
+    padding:20px;
+    position:fixed;
+    left:0;
+    top:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    overflow-y:auto;
+}
+
+.logo{
+    text-align:center;
+    margin-top:50px;
+    margin-bottom:40px;
+}
+
+.logo img{
+    width:100px;
+}
+
+.menu-btn{
+    width:80%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    padding:14px;
+    border-radius:18px;
+    background:#d4ddd4;
+    color:#000;
+    font-size:16px;
+    font-weight:500;
+    margin-bottom:18px;
+    box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+
+.menu-btn:hover{
+    background:#c2ccc2;
+}
+
+.menu-btn.active{
+    font-weight:bold;
+}
+
+.content{
+    flex:1;
+    margin-left:250px;
+    padding:20px 40px;
+}
+
+.header{
+    text-align:center;
+    position:relative;
+    margin-bottom:25px;
+}
+
+.header h1{
+    font-size:38px;
+    font-weight:bold;
+    line-height:1.3;
+}
+
+.home-icon{
+    position:absolute;
+    right:10px;
+    top:0;
+    text-decoration:none;
+    font-size:32px;
+}
+
+.status-menu{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.status-btn{
+    width:135px;
+    height:65px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    color:black;
+    font-weight:bold;
+    border-radius:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.15);
+}
+
+.menunggu{ background:#ece88b;}
+.diproses{ background:#95b8ee;}
+.siap{ background:#d895ef;}
+.selesai{ background:#79dd86;}
+.batal{ background:#f3a0a0;}
+
+.order-card{
+    background:#f4f4f4;
+    border:1px solid #bababa;
+    border-radius:8px;
+    padding:15px 18px;
+    margin-bottom:12px;
+    display:grid;
+    grid-template-columns:
+        1fr
+        140px;
+    gap:15px;
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+}
+
+.order-info{
+    width:100%;
+}
+
+.row-top{
+    display:grid;
+    grid-template-columns:
+        1fr
+        180px;
+    margin-bottom:10px;
+}
+
+.order-id{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.order-name{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.row-middle{
+    margin-bottom:10px;
+}
+
+.menu-col{
+    width:280px;
+}
+
+.menu-row{
+    display:grid;
+    grid-template-columns:
+        200px
+        40px;
+    margin-bottom:5px;
+    font-size:13px;
+}
+
+.row-bottom{
+    display:grid;
+    grid-template-columns:
+        1fr
+        230px;
+    margin-top:10px;
+    font-size:13px;
+}
+
+.row-bottom strong{
+    font-size:14px;
+}
+
+.action-section{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-end;
+    gap:10px;
+}
+
+.action-section form{
+    margin:0;
+}
+
+.action-btn{
+    width:120px;
+    height:36px;
+    border:none;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 2px 3px rgba(0,0,0,.2);
+}
+
+.btn-proses{
+    background:#5c9ae3;
+}
+
+.btn-batal{
+    background:#e56a6a;
+}
+
+.btn-siap{
+    background:#d88cef;
+}
+
+.btn-selesai{
+    background:#59d76b;
+}
+
+.label-status{
+    width:120px;
+    text-align:center;
+    padding:10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.batal-text{
+    background:#f0abab;
+}
+
+.selesai-text{
+    background:#89e696;
+}
+
+@media(max-width:900px){
+    .content{
+        margin-left:0;
+        padding:20px;
+    }
+    .sidebar{
+        display:none;
+    }
+    .order-card{
+        grid-template-columns:1fr;
+    }
+    .action-section{
+        align-items:flex-start;
+    }
+    .status-menu{
+        flex-wrap:wrap;
+    }
+}
