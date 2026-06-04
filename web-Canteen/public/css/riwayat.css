@@ -9,7 +9,7 @@ body {
     position: fixed;
     top: 15px;
     left: 15px;
-    font-size: 26px;
+    font-size: 28px;
     cursor: pointer;
     z-index: 1000;
 }
@@ -17,13 +17,17 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background: #9fa4a1;
+    background: #a7a7a7;
     padding: 20px;
     position: fixed;
+    left: 0;
+    top: 0;
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
     z-index: 999;
-    transition: margin-left 0.3s ease;
 }
 
 .sidebar.hide {
@@ -45,81 +49,189 @@ body {
 
 .logo {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 50px;
+    margin-bottom: 40px;
 }
 
 .logo img {
-    width: 120px;
+    width: 100px;
 }
 
 .menu {
-    flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    transform: translateY(-40px);
+    gap: 18px;
 }
 
+.menu a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.menu button,
 .menu-item {
     width: 80%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 20px;
-    background: #c8d0c9;
-    text-align: center;
-    text-decoration: none;
-    color: black;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid #666;
+    background: #d4ddd4;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.2s;
+}
+
+.menu button:hover,
+.menu-item:hover {
+    background: #c2ccc2;
 }
 
 .menu-item.active {
     background: #7fbf7f;
     color: white;
+    font-weight: bold;
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 58px;
+    font-weight: bold;
+    line-height: 1.3;
+    text-align: center;
+
+    margin-top: 10px;
+    margin-bottom: 45px;
 }
 
 .filter {
+    width: 90%;
+    margin: 0 auto 25px auto;
     display: flex;
-    justify-content: center;
-    gap: 80px;
-    margin: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.filter label {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .filter select {
-    padding: 10px;
-    border-radius: 20px;
+    width: 135px;
+    height: 48px;
+    border-radius: 24px;
+    border: 1px solid #999;
+    background: #eef1e8;
+    padding: 0 15px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 .riwayat-container {
-    background: #cfd8cf;
-    padding: 20px;
-    border-radius: 25px;
+    width: 90%;
+    margin: auto;
+    background: #dce7d8;
+    padding: 24px;
+    border-radius: 28px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 22px;
 }
 
 .riwayat-card {
-    background: #ddd;
-    padding: 15px;
-    border-radius: 15px;
-    text-align: left;
+    background: #efefef;
+    border: 1px solid #999;
+    border-radius: 18px;
+    padding: 18px;
     position: relative;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.riwayat-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.riwayat-card p {
+    margin: 8px 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
 }
 
 .status {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
+    top: 18px;
+    right: 18px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-.menunggu { background: gold; }
-.diproses { background: skyblue; }
-.dibatalkan { background: red; color: white; }
-.selesai { background: green; color: white; }
+.menunggu {
+    background: #d8ca4f;
+}
+
+.diproses {
+    background: #5ea6df;
+}
+
+.dibatalkan {
+    background: #df6666;
+    color: white;
+}
+
+.selesai {
+    background: #57c85f;
+    color: white;
+}
+
+.alert{
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.alert-success{
+    background: #57c85f;
+}
+
+.alert-error{
+    background: #df6666;
+}
+
+.btn-batal{
+    margin-top: 15px;
+    background: #df6666;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-batal:hover{
+    background: #c94d4d;
+}

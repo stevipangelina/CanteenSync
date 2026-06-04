@@ -4,59 +4,103 @@ body {
     display: flex;
 }
 
-.sidebar {
-    width: 25%;
-    background: #d9d9d9;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
 }
 
-.logo img {
-    width: 120px;
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #a7a7a7;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: 0.3s;
+}
+
+.sidebar.hide {
+    margin-left: -300px;
+}
+
+.logo {
+    text-align: center;
+    margin-top: 20px;
     margin-bottom: 30px;
 }
 
+.logo img {
+    width: 100px;
+}
+
 .sidebar h2 {
-    align-self: flex-start;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-bottom: 15px;
 }
 
 .kategori {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .kategori a {
-    display: block;
-    margin: 15px 0;
-    padding: 15px;
-    border-radius: 25px;
-    background: #cfd8dc;
+    width: 220px;
+    padding: 14px;
+    border-radius: 18px;
+    background: #d4ddd4;
     text-decoration: none;
     color: black;
-    font-size: 18px;
-    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
     transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .kategori a:hover {
-    background: #b0bec5;
+    background: #c2ccc2;
 }
 
 .btn-back {
     margin-top: auto;
-    padding: 12px 20px;
-    background: #4caf50;
-    border-radius: 25px;
+    width: 140px;
+    padding: 10px;
+    text-align: center;
+    background: #7edc89;
+    border-radius: 20px;
     text-decoration: none;
     color: black;
     font-weight: bold;
+    margin-bottom: 40px;
+    margin-left: 80px;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn-back:hover {
+    background: #6bc977;
 }
 
 .content {
-    width: 75%;
+    margin-left: 290px;
+    width: 100%;
     background: #e6e6fa;
     padding: 30px;
+    min-height: 100vh;
+    transition: 0.3s;
+}
+
+.sidebar.hide ~ .content {
+    margin-left: 0;
 }
 
 .cart {
@@ -86,6 +130,11 @@ h1 {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card img {
@@ -104,6 +153,7 @@ h1 {
     color: black;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn:hover {
