@@ -19,9 +19,9 @@ class KeranjangController extends Controller
         $keranjang = session()->get('keranjang', []);
         $id_kantin = session()->get('id_kantin');
 
-        return view('hal_keranjang', compact('keranjang', 'id_kantin'));
+        return view('keranjang', compact('keranjang', 'id_kantin'));
     }
-    
+
     // tambah ke keranjang
     public function tambah(Request $request)
 {
@@ -54,26 +54,4 @@ class KeranjangController extends Controller
     session()->put('keranjang', $keranjang);
     return back()->with('success', 'Pesanan dimasukkan ke keranjang');
 }
-
-    public function update(Request $request)
-    {
-        $keranjang = session()->get('keranjang', []);
-        if(isset($keranjang[$request->id])) {
-            $keranjang[$request->id]['qty'] = $request->qty;
-            if($request->qty <= 0){unset($keranjang[$request->id]);}
-        }
-
-        session()->put('keranjang', $keranjang);
-        return back();
-    }
-
-    // hapus item
-    public function hapus($id)
-    {
-        $keranjang = session()->get('keranjang', []);
-        if(isset($keranjang[$id])) {unset($keranjang[$id]);}
-
-        session()->put('keranjang', $keranjang);
-        return back();
-    }
 }

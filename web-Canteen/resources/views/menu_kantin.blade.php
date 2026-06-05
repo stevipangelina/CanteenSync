@@ -7,6 +7,9 @@
 </head>
 
 <body>
+<div class="toggle-btn" onclick="toggleSidebar()">
+    ☰
+</div>
 
 <div class="sidebar">
     <div class="logo">
@@ -69,9 +72,16 @@
     </script>
     @endif
 
-    <h2 class="judul">Makanan Utama</h2>
-
-    <!-- GRID MENU -->
+    <h2 class="judul">
+        @if(request('kategori') == 'minuman')
+            Minuman
+        @elseif(request('kategori') == 'snack')
+            Snack
+        @else
+            Makanan Utama
+        @endif
+    </h2>
+    <!-- DAFTAR MENU -->
     <div class="menu-grid">
         @forelse($menu as $menu)
             <div class="card">
@@ -96,6 +106,12 @@
     </div>
 
 </div>
+
+<script>
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("hide");
+}
+</script>
 
 </body>
 </html>

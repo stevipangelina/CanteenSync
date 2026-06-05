@@ -1,31 +1,88 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use App\Models\Pesanan;
+use App\Models\DetailPesanan;
+use App\Models\DetailRiwayat;
+
 class RiwayatController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        $pesanan = Pesanan::with([
-            'detailPesanan.menu',
-            'detailPesanan.riwayat'
-        ])->where('id_user', auth()->id())->orderBy('id_pesanan', 'desc')->get();
+        $query = Pesanan::with([
+            'detailPesanan.menu'
+        ])
+        ->where(
+            'id_user', auth()->id()
 
-        return view('riwayat',compact('pesanan'));
+        );
+
+        if($request->kantin)
+        {
+            $query->where('id_kantin', $request->kantin
+            );
+        }
+
+        if($request->status)
+        {
+            $query->where( 'status',
+                $request->status
+            );
+        }
+
+        $pesanan = $query
+            ->orderBy( 'id_pesanan', 'desc')
+            ->get();
+
+        return view('riwayat', compact('pesanan')
+        );
+
     }
-
 
     public function batalkan($id)
     {
-        $pesanan = \App\Models\Pesanan::findOrFail($id);
-        if($pesanan->status != 'menunggu')  // hanya boleh dibatalkan saat masih menunggu
+
+        $detailPesanan = DetailPesanan::where(
+            'id_pesanan',
+            $id
+        )->get();
+
+        $pesanan = Pesanan::find($id);
+        if(!$pesanan)
         {
-            return back()->with('error', 'Pesanan sudah diproses dan tidak dapat dibatalkan');
+            return back()->with( 'error', 'Pesanan tidak ditemukan');
+            }
+        if(
+            $pesanan->status == 'diproses' ||
+            $pesanan->status == 'selesai'
+        )
+        {
+            return back()->with( 'error', 'Pesanan sedang diproses dan tidak bisa dibatalkan');
         }
 
-        \App\Models\DetailPesanan::where('id_pesanan',$id)->delete();  // hapus detail pesanan
-        $pesanan->delete(); // hapus pesanan utama
+        $pesanan->update([
+            'status' => 'dibatalkan'
+        ]);
 
-        return back()->with('success','Pesanan berhasil dibatalkan');
+        foreach($detailPesanan as $detail)
+        {
+            DetailRiwayat::create([
+                'id_detail' => $detail->id_detail,
+                'id_menu' => $detail->id_menu,
+                'jumlah' => $detail->jumlah,
+                'harga' => $detail->harga,
+                'subtotal' => $detail->subtotal,
+                'status' => 'dibatalkan'
+            ]);
+
+        }
+
+        return back()->with(
+            'success',
+            'Pesanan berhasil dibatalkan'
+        );
     }
 }

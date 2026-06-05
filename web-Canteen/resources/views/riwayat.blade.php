@@ -2,115 +2,222 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Riwayat Pesanan</title>
-
+    <title> Riwayat Pesanan </title>
     <link rel="stylesheet" href="{{ asset('css/riwayat.css') }}">
 </head>
+
 <body>
 
-<div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-<div id="sidebar" class="sidebar">
+<!-- TOGGLE -->
+<div
+    class="toggle-btn"
+    onclick="toggleSidebar()"> ☰ </div>
 
+<!-- SIDEBAR -->
+<div
+    id="sidebar"
+    class="sidebar">
+    <!-- LOGO -->
     <div class="logo">
         <img src="{{ asset('images/logo.png') }}">
     </div>
 
+    <!-- MENU -->
     <div class="menu">
-        <a href="{{ route('dashboard') }}" class="menu-item">Pilih Kantin</a>
-
-        <a href="{{ route('riwayat') }}" 
-           class="menu-item active">
-           Riwayat Pesanan
+        <a href="{{ url('/dashboard') }}">
+            <button> Pilihan Kantin </button>
         </a>
-
-        <a href="{{ route('profil') }}" class="menu-item">Profil</a>
+        <a href="{{ route('riwayat') }}"> <button> Riwayat Pesanan </button> </a>
+        <a href="{{ route('profil') }}"> <button> Profil </button> </a>
     </div>
-
 </div>
 
-<!-- Main -->
+<!-- MAIN -->
 <div class="main-content">
+    <!-- TITLE -->
+    <h1>
+        Riwayat Pemesanan<br>Makanan Kantin
+    </h1>
 
-    <h1>Riwayat Pemesanan<br>Makanan Kantin</h1>
+    <!-- FILTER -->
+    <form method="GET">
+        <div class="filter">
+            <!-- FILTER KANTIN -->
+            <div>
+                <label>
+                    Pilih Kantin :
+                </label>
 
-    <!-- Filter -->
-    <div class="filter">
-<div class="filter">
-        <div>
-            <label>Pilih Kantin :</label>
-            <select class="filter-select">
-                <option>All</option>
-                <option>Kantin A</option>
-                <option>Kantin B</option>
-                <option>Kantin C</option>
-            </select>
+                <select
+                    name="kantin"
+                    class="filter-select"
+                    onchange="this.form.submit()">
+                    <option value=""> All </option>
+                    <option
+                        value="1"
+                        {{ request('kantin') == 1 ? 'selected' : '' }}>
+                        Kantin A
+                    </option>
+
+                    <option
+                        value="2"
+                        {{ request('kantin') == 2 ? 'selected' : '' }}>
+                        Kantin B
+                    </option>
+
+                    <option
+                        value="3"
+                        {{ request('kantin') == 3 ? 'selected' : '' }}>
+                        Kantin C
+                    </option>
+                </select>
+            </div>
+
+            <!-- FILTER STATUS -->
+            <div>
+                <label> Status : </label>
+
+                <select
+                    name="status"
+                    class="filter-select"
+                    onchange="this.form.submit()">
+
+                    <option value=""> All </option>
+
+                    <option
+                        value="menunggu"
+                        {{ request('status') == 'menunggu' ? 'selected' : '' }}>
+                        Menunggu
+                    </option>
+
+                    <option
+                        value="diproses"
+                        {{ request('status') == 'diproses' ? 'selected' : '' }}>
+                        Diproses
+                    </option>
+
+                    <option
+                        value="dibatalkan"
+                        {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>
+                        Dibatalkan
+                    </option>
+
+                    <option
+                        value="selesai"
+                        {{ request('status') == 'selesai' ? 'selected' : '' }}>
+                        Selesai
+                    </option>
+                </select>
+            </div>
         </div>
-        <div>
-            <label>Status :</label>
-            <select class="filter-select">
-                <option>All</option>
-                <option>Menunggu</option>
-                <option>Diproses</option>
-                <option>Dibatalkan</option>
-                <option>Selesai</option>
-            </select>
+    </form>
+
+    <!-- ALERT SUCCESS -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
+    @endif
 
-</div>
-    </div>
+    <!-- ALERT ERROR -->
+    @if(session('error'))
+        <div class="alert alert-error">
+            {{ session('error') }}
+        </div>
+    @endif
 
-    <!-- Card Container -->
+    <!-- CARD CONTAINER -->
     <div class="riwayat-container">
+        @forelse($pesanan as $item)
+            @php
+                $status = $item->status;
+            @endphp
 
-        <!-- Card -->
-        <div class="riwayat-card">
-            <div class="status menunggu">⏳ Menunggu</div>
-            <h3>Kantin A</h3>
-            <p>ID Pesanan : K01</p>
-            <p>Menu : Es Teh, Dimsum Ayam</p>
-            <p>Total : Rp. 20000</p>
-            <p>Metode Pembayaran : E-Wallet</p>
-            <p>Reservasi Waktu Ambil : 15 Menit</p>
-        </div>
+            <!-- CARD -->
+            <div class="riwayat-card">
+                <!-- STATUS -->
+                <div class="status {{ $status }}">
+                    @if($status == 'menunggu')
+                        ⏳ Menunggu
+                    @elseif($status == 'diproses')
+                        🔄 Diproses
+                    @elseif($status == 'dibatalkan')
+                        ❌ Dibatalkan
+                    @elseif($status == 'selesai')
+                        ✔ Selesai
+                    @endif
+                </div>
 
-        <div class="riwayat-card">
-            <div class="status diproses">🔄 Diproses</div>
-            <h3>Kantin B</h3>
-            <p>ID Pesanan : K01</p>
-            <p>Menu : Es Teh, Nasi Soto Ayam</p>
-            <p>Total : Rp. 20000</p>
-            <p>Metode Pembayaran : Dine-In</p>
-            <p>Reservasi Waktu Ambil : 10 Menit</p>
-        </div>
+                <!-- KANTIN -->
+                <h3>
+                    Kantin
+                    {{ chr(64 + $item->id_kantin) }}
+                </h3>
 
-        <div class="riwayat-card">
-            <div class="status dibatalkan">❌ Dibatalkan</div>
-            <h3>Kantin B</h3>
-            <p>ID Pesanan : K01</p>
-            <p>Menu : Es Jeruk, Nasi Goreng</p>
-            <p>Total : Rp. 20000</p>
-            <p>Metode Pembayaran : E-Wallet</p>
-            <p>Reservasi Waktu Ambil : 20 Menit</p>
-        </div>
+                <!-- ID -->
+                <p>
+                    ID Pesanan :
+                    K{{ $item->id_pesanan }}
+                </p>
 
-        <div class="riwayat-card">
-            <div class="status selesai">✔ Selesai</div>
-            <h3>Kantin C</h3>
-            <p>ID Pesanan : K01</p>
-            <p>Menu : Air Mineral, Bakso Komplit</p>
-            <p>Total : Rp. 17000</p>
-            <p>Metode Pembayaran : E-Wallet</p>
-            <p>Reservasi Waktu Ambil : 10 Menit</p>
-        </div>
+                <!-- MENU -->
+                <p>
+                    Menu :
+                    @foreach($item->detailPesanan as $detail)
+                        {{ $detail->menu->nama_menu ?? 'Menu Tidak Ada' }}
+                        @if(!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
+                </p>
 
+                <!-- TOTAL -->
+                <p>
+                    Total : Rp {{ number_format($item->total_harga) }}
+                </p>
+
+                <!-- METODE -->
+                <p>
+                    Metode Pembayaran : {{ $item->metode_pembayaran }}
+                </p>
+
+                <!-- RESERVASI -->
+                <p> Reservasi Waktu Ambil : {{ $item->jam_pengambilan }} Menit</p>
+
+                <!-- BUTTON BATAL -->
+                @if($status == 'menunggu')
+                    <form
+                        action="{{ route('pesanan.batal', $item->id_pesanan) }}"
+                        method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button
+                            type="submit"
+                            class="btn-batal">
+                            Batalkan Pesanan
+                        </button>
+                    </form>
+                @endif
+            </div>
+        @empty
+            <div class="alert alert-error">
+                Belum ada riwayat pemesanan.
+            </div>
+        @endforelse
     </div>
-
 </div>
 
+<!-- SCRIPT -->
 <script>
-function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("hide");
+function toggleSidebar()
+{
+    document
+        .getElementById("sidebar")
+        .classList
+        .toggle("hide");
+
 }
+
 </script>
 
 </body>
