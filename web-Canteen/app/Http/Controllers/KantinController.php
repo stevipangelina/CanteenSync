@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\DetailPesanan;
 use App\Models\DetailRiwayat;
@@ -12,7 +13,7 @@ class KantinController extends Controller
         $canteens = [
             ['id' => 1, 'name' => 'Kantin A', 'image' => 'canteen1.png'],
             ['id' => 2, 'name' => 'Kantin B','image' => 'canteen2.png'],
-            ['id' => 3, 'name' => 'Kantin C', 'image' => 'canteen3.png'],
+            ['id' => 3, 'name' => 'Kantin C', 'image' => 'canteen3.png']
         ];
 
         return view('dashboard', compact('canteens'));
@@ -74,61 +75,4 @@ class KantinController extends Controller
 
         return back()->with('success','Pesanan dibatalkan');
     }
-
-    // public function prosesPesanan($id)
-    // {
-    //     $pesanan = Pesanan::findOrFail($id);
-
-    //     // update status pesanan
-    //     $pesanan->update([
-    //         'status' => 'diproses'
-    //     ]);
-
-    //     // buat riwayat
-    //     $riwayat = Riwayat::create([
-    //         'id_pesanan' => $pesanan->id_pesanan,
-    //         'status' => 'diproses'
-    //     ]);
-
-    //     // copy detail pesanan ke detail riwayat
-    //     foreach($pesanan->detailPesanan as $detail)
-    //     {
-    //         \App\Models\DetailRiwayat::create([
-
-    //             'id_riwayat' => $riwayat->id_riwayat,
-
-    //             'id_menu' => $detail->id_menu,
-
-    //             'jumlah' => $detail->jumlah,
-
-    //             'harga' => $detail->harga,
-
-    //             'subtotal' => $detail->subtotal
-    //         ]);
-    //     }
-
-    //     return back();
-    // }
-
-    // public function selesaiPesanan($id)
-    // {
-    //     $riwayat = Riwayat::findOrFail($id);
-
-    //     $riwayat->update([
-    //         'status' => 'selesai'
-    //     ]);
-
-    //     return back();
-    // }
-
-    // public function batalkanPesananKantin($id)
-    // {
-    //     $riwayat = Riwayat::findOrFail($id);
-
-    //     $riwayat->update([
-    //         'status' => 'dibatalkan'
-    //     ]);
-
-    //     return back();
-    // }
 }

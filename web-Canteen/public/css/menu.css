@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+.toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #a7a7a7;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: 0.3s;
+}
+
+.sidebar.hide {
+    margin-left: -300px;
+}
+
+.logo {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 100px;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-left: 5px;
+    margin-bottom: 15px;
+}
+
+.kategori {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.kategori a {
+    width: 220px;
+    padding: 14px;
+    border-radius: 18px;
+    background: #d4ddd4;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.kategori a:hover {
+    background: #c2ccc2;
+}
+
+.btn-back {
+    margin-top: auto;
+    width: 140px;
+    padding: 10px;
+    text-align: center;
+    background: #7edc89;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 40px;
+    margin-left: 80px;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn-back:hover {
+    background: #6bc977;
+}
+
+.content {
+    margin-left: 290px;
+    width: 100%;
+    background: #e6e6fa;
+    padding: 30px;
+    min-height: 100vh;
+    transition: 0.3s;
+}
+
+.sidebar.hide ~ .content {
+    margin-left: 0;
+}
+
+.cart {
+    text-align: right;
+    font-size: 26px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.judul {
+    margin: 20px 0;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: #e8f5e9;
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #4caf50;
+    border: none;
+    border-radius: 15px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #43a047;
+}
+
+.notif {
+    background: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+}
