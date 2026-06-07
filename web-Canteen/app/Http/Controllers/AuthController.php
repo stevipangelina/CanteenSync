@@ -16,10 +16,15 @@ class AuthController extends Controller
     }
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
+        $request->validate(['username' => 'required', 'password' => 'required']);
+        $user = Akun::where('nama', $request->username)->first();
+        
+        if (!$user) {
+            return back()->with('error','Username tidak ditemukan');
+        }
+        
+            # login khusus kantin
+    if ($user->role == 'kantin') {
 
         $user = Akun::where(
             'nama',
