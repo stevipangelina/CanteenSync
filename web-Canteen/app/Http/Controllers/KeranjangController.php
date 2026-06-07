@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use Illuminate\Support\Facades\Auth;
 
 class KeranjangController extends Controller
 {
     // tampil halaman keranjang
     public function index()
     {
+//         dd(
+//     Auth::check(),
+//     Auth::id(),
+//     session()->all()
+// );
         $keranjang = session()->get('keranjang', []);
         $id_kantin = session()->get('id_kantin');
 
@@ -20,11 +26,9 @@ class KeranjangController extends Controller
     public function tambah(Request $request)
 {
     $menu = Menu::findOrFail($request->id);
-
     $keranjang = session()->get('keranjang', []);
     $id_kantin_lama = session()->get('id_kantin');
 
-    // 🚨 jika beda kantin & belum konfirmasi
     if ($id_kantin_lama && $id_kantin_lama != $menu->id_kantin && !$request->force) {
         return back()->with('warning', [
             'message' => 'Apakah ingin mengganti pesanan pada kantin lain?',
@@ -32,16 +36,10 @@ class KeranjangController extends Controller
         ]);
     }
 
-    // 🔥 jika user setuju → hapus keranjang lama
-    if ($id_kantin_lama && $id_kantin_lama != $menu->id_kantin && $request->force) {
-        session()->forget('keranjang');
-    }
+    if ($id_kantin_lama && $id_kantin_lama != $menu->id_kantin && $request->force) {session()->forget('keranjang');}
 
-    // simpan id kantin baru
     session()->put('id_kantin', $menu->id_kantin);
-
     $keranjang = session()->get('keranjang', []);
-
     if(isset($keranjang[$menu->id_menu])) {
         $keranjang[$menu->id_menu]['qty']++;
     } else {
@@ -54,7 +52,6 @@ class KeranjangController extends Controller
     }
 
     session()->put('keranjang', $keranjang);
-
     return back()->with('success', 'Pesanan dimasukkan ke keranjang');
 }
 }

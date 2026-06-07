@@ -9,6 +9,8 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\PesananMasukController;
+use App\Http\Controllers\RekapanPenjualanController;
 
 Route::get('/', function () { return redirect()->route('login');});
 Route::get('/login', [AuthController::class, 'showLogin'])

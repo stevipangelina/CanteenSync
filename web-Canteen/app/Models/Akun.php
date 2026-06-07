@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Akun extends Authenticatable
 {
     protected $table = 'akun'; 
-
     protected $fillable = [
         'nama',
         'email',
@@ -15,7 +13,6 @@ class Akun extends Authenticatable
         'no_telepon',
         'role'
     ];
-
     protected $hidden = [
         'password'
     ];

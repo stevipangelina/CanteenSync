@@ -11,18 +11,19 @@ class Pesanan extends Model
     protected $fillable = [
         'id_user',
         'id_kantin',
-        'status',
-        'metode_pembayaran'
+        'waktu_pesan',
+        'jam_pengambilan',
+        'total_harga',
+        'status'
     ];
 
+    public function detail()
+    {
+        return $this->hasMany(DetailPesanan::class, 'id_pesanan');
+    }
+    
     public function detailPesanan()
     {
         return $this->hasMany(DetailPesanan::class,'id_pesanan');
-    }
-
-    
-    public function riwayat()
-    {
-        return $this->hasOne(Riwayat::class,'id_pesanan');
     }
 }
