@@ -51,21 +51,21 @@
         <div class="card">
             <img src="{{ asset('images/kantin-a.png') }}">
             <h3>Kantin A</h3>
-            <a href="{{ url('/kantin/1') }}">
+            <a href="{{ route('lihat.menu', ['id' => 1]) }}">
                 <button>Lihat Menu</button>
             </a>
         </div>
         <div class="card">
             <img src="{{ asset('images/kantin-b.png') }}">
             <h3>Kantin B</h3>
-            <a href="{{ url('/kantin/2') }}">
+            <a href="{{ route('lihat.menu', ['id' => 2]) }}">
                 <button>Lihat Menu</button>
             </a>
         </div>
         <div class="card">
             <img src="{{ asset('images/kantin-c.png') }}">
             <h3>Kantin C</h3>
-            <a href="{{ url('/kantin/3') }}">
+            <a href="{{ route('lihat.menu', ['id' => 3]) }}">
                 <button>Lihat Menu</button>
             </a>
         </div>

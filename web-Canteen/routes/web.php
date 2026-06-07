@@ -27,6 +27,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/dashboard', [KantinController::class, 'dashboard']);
 Route::get('/kantin/{id}', [MenuController::class, 'index']);
 
+Route::get('/lihat-menu/{id}', [MenuController::class, 'lihatMenuMahasiswa'])
+    ->name('lihat.menu');
 Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])
     ->name('keranjang.tambah');
 Route::get('/keranjang', [KeranjangController::class, 'index'])
@@ -51,3 +53,27 @@ Route::get('/riwayat', [RiwayatController::class, 'index'])
     ->name('riwayat');
 Route::put('/pesanan/batal/{id}', [RiwayatController::class, 'batalkan'])
     ->name('pesanan.batal');
+
+Route::get('/pesanan-masuk/{id_kantin}', [PesananMasukController::class, 'index'])
+    ->name('pesanan-masuk');
+Route::post('/pesanan-masuk/update-status/{id_pesanan}', [PesananMasukController::class, 'updateStatus'])
+    ->name('pesanan-masuk.update-status');
+    
+Route::get('/menu/{id}',[MenuController::class, 'index'])->name('kantin.menu.index');
+Route::get('/menu/{id}/create',[MenuController::class, 'create'])->name('kantin.menu.create');
+Route::post('/menu/{id}/store',[MenuController::class, 'store'])->name('kantin.menu.store');
+Route::get('/menu/{id}/edit/{id_menu}',[MenuController::class, 'edit'])->name('kantin.menu.edit');
+Route::put('/menu/{id}/update/{id_menu}',[MenuController::class, 'update'])->name('kantin.menu.update');
+Route::delete('/menu/{id}/delete/{id_menu}',[MenuController::class, 'destroy'])->name('kantin.menu.delete');
+
+Route::get('/kantin/pesanan/{id_kantin}',[PesananMasukController::class,'index'])->name('kantin.pesanan');
+Route::post('/kantin/pesanan/update-status/{id_pesanan}',[PesananMasukController::class,'updateStatus'])->name('kantin.update.status');
+
+Route::get('/kantin/riwayat/{id_kantin}',[RekapanPenjualanController::class,'index'])->name('kantin.riwayat');
+// Route::get('/test-auth', function () {
+//     dd(
+//         Auth::check(),
+//         Auth::id(),
+//         session()->all()
+//     );
+// });

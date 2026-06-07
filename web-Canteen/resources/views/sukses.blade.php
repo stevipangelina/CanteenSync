@@ -63,9 +63,9 @@
 
         <div class="info-row">
             <span>Metode Pembayaran</span>
-            <span>
-                {{ $data['metode'] }}
-            </span>
+                <span>
+                    {{ $data['metode_pembayaran'] }}
+                </span>
         </div>
     </div>
 

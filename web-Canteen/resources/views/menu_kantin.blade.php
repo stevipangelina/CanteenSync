@@ -18,9 +18,9 @@
 
     <h2>Kategori :</h2>
     <div class="kategori">
-        <a href="/kantin/{{ $id }}">Makanan Utama</a>
-        <a href="/kantin/{{ $id }}?kategori=minuman">Minuman</a>
-        <a href="/kantin/{{ $id }}?kategori=snack">Snack</a>
+        <a href="{{ route('lihat.menu', ['id' => $id]) }}">Makanan Utama</a>
+        <a href="{{ route('lihat.menu', ['id' => $id, 'kategori' => 'minuman']) }}">Minuman</a>
+        <a href="{{ route('lihat.menu', ['id' => $id, 'kategori' => 'snack']) }}">Snack</a>
     </div>
     <a href="{{ url('/dashboard') }}" class="btn-back">← Pilih Kantin</a>
 </div>
