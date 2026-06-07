@@ -32,6 +32,23 @@ class MenuController extends Controller
     # add menu
     public function create($id)
     {
+        $kategori = $request->kategori;
+        $kantin = Akun::findOrFail($id);
+
+        $menu = Menu::where('id_kantin', $id)->when($kategori, function ($query) use ($kategori) {$query->where('kategori', $kategori);
+        }) ->get();
+
+        return view('kelola_menu_kantin', compact(
+            'menu',
+            'id',
+            'kategori',
+            'kantin'
+        ));
+    }
+
+    # add menu
+    public function create($id)
+    {
         $menu = null;
         return view('form_edit_add_menu', compact('menu','id'));
     }
@@ -40,11 +57,13 @@ class MenuController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
+
             'nama_menu' => 'required',
             'kategori'  => 'required',
             'harga'     => 'required|numeric',
             'stok'      => 'required|numeric',
             'gambar'    => 'nullable|image|mimes:jpg,jpeg,png'
+
         ]);
 
         $namaFile = null;
@@ -83,6 +102,7 @@ class MenuController extends Controller
     {
         $menu = Menu::findOrFail($id_menu);
         $namaFile = $menu->gambar;
+
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = time() . '_' .
