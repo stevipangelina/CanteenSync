@@ -15,11 +15,10 @@
 
     <img src="{{ asset('images/logo.png') }}" class="logo">
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" autocomplete="off">
         @csrf
-        <input type="text" name="username" placeholder="Nama User">
-        <input type="password" name="password" placeholder="Password">
-
+        <input type="text" name="username" placeholder="Nama User" autocomplete="off">
+        <input type="password" name="password" placeholder="Password" autocomplete="new-password">
         <button type="submit">LOGIN</button>
     </form>
 

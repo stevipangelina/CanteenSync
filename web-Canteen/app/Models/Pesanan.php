@@ -26,4 +26,8 @@ class Pesanan extends Model
     {
         return $this->hasMany(DetailPesanan::class,'id_pesanan');
     }
+    public function user()
+    {
+        return $this->belongsTo(Akun::class, 'id_user'); 
+    }
 }

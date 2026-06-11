@@ -20,10 +20,10 @@
 
         <form action="{{ route('register') }}" method="POST">
             @csrf
-            <input type="text" name="username" placeholder="Nama User" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="text" name="phone" placeholder="No Handphone" required>
+            <input type="text" name="username" placeholder="Nama User" required autocomplete="off">
+            <input type="email" name="email" placeholder="Email" required autocomplete="off">
+            <input type="password" name="password" placeholder="Password" required autocomplete="new-password">
+            <input type="text" name="phone" placeholder="No Handphone" required autocomplete="off">
             <button type="submit"> REGISTER </button>
         </form>
 

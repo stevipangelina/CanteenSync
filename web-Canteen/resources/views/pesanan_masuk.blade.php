@@ -15,13 +15,13 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo">
         </div>
 
-        <a href="/kelola-menu/1" class="menu-btn">
+        <a href="/menu/{{ $id_kantin }}" class="menu-btn">
             Kelola Menu
         </a>
-        <a href="{{ route('kantin.pesanan') }}" class="menu-btn active">
+        <a href="{{ route('pesanan-masuk', ['id_kantin' => $id_kantin]) }}" class="menu-btn active">
             Pesanan Masuk
         </a>
-        <a href="{{ route('kantin.riwayat') }}" class="menu-btn">
+        <a href="{{ route('kantin.riwayat', ['id_kantin' => $id_kantin]) }}" class="menu-btn">
             Riwayat Penjualan
         </a>
     </div>
@@ -31,7 +31,7 @@
             <h1>
                 Pesanan Masuk <br> Kantin A
             </h1>
-            <a href="{{ route('dashboard') }}" class="home-icon"> 🏠 </a>
+            <a href="{{ route('kantin.menu.index', ['id' => $id_kantin]) }}" class="home-icon"> 🏠 </a>
         </div>
 
         <div class="status-menu">
@@ -57,17 +57,11 @@
             <div class="order-info">
                 <div class="row-top">
                     <div class="order-id">
-                        <strong>
-                            ID Pesanan :
-                            {{ $p->nomor_kantin }}
-                        </strong>
+                        <strong>ID Pesanan : {{ $p->nomor_kantin }}</strong>
                     </div>
 
                     <div class="order-name">
-                        <strong>
-                            Nama :
-                            {{ $p->nama_pemesan ?? 'Tanist' }}
-                        </strong>
+                        <strong>Nama : {{ $p->user->nama ?? 'Tanist' }}</strong>
                     </div>
                 </div>
 
@@ -75,85 +69,56 @@
                     <div class="menu-col">
                         @foreach($p->detail as $d)
                         <div class="menu-row">
-                            <span>
-                                {{ $d->menu->nama_menu }}
-                            </span>
-                            <span>
-                                {{ $d->jumlah }}x
-                            </span>
+                            <span>{{ $d->menu->nama_menu }}</span>
+                            <span>{{ $d->jumlah }}x</span>
                         </div>
                         @endforeach
                     </div>
                 </div>
 
                 <div class="row-bottom">
-                    <div>
-                        Metode Pembayaran :
-                        {{ $p->metode_pembayaran }}
-                    </div>
-                    <div>
-                        <strong>
-                            Total Harga :
-                            Rp {{ number_format($p->total_harga,0,',','.') }}
-                        </strong>
-                    </div>
+                    <div>Metode Pembayaran : {{ $p->metode_pembayaran }}</div>
+                    <div><strong>Total Harga : Rp {{ number_format($p->total_harga,0,',','.') }}</strong></div>
                 </div>
             </div>
 
             <div class="action-section">
                 @if($p->status == 'menunggu')
-                <form action="{{ route('kantin.update.status',$p->id_pesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="status" value="diproses">
-                    <button type="submit" class="action-btn btn-proses">
-                        Diproses
-                    </button>
-                </form>
+                    <form action="{{ route('pesanan-masuk.update-status',$p->id_pesanan) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="diproses">
+                        <button type="submit" class="action-btn btn-proses">Diproses</button>
+                    </form>
 
-                <form action="{{ route('kantin.update.status',$p->id_pesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="status" value="dibatalkan">
-                    <button type="submit" class="action-btn btn-batal">
-                        Dibatalkan
-                    </button>
-                </form>
-
+                    <form action="{{ route('pesanan-masuk.update-status',$p->id_pesanan) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="dibatalkan">
+                        <button type="submit" class="action-btn btn-batal">Dibatalkan</button>
+                    </form>
                 @endif
+
                 @if($p->status == 'diproses')
-
-                <form action="{{ route('kantin.update.status',$p->id_pesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="status" value="siap_diambil">
-                    <button type="submit" class="action-btn btn-siap">
-                        Siap Diambil
-                    </button>
-                </form>
-
+                    <form action="{{ route('pesanan-masuk.update-status',$p->id_pesanan) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="siap_diambil">
+                        <button type="submit" class="action-btn btn-siap">Siap Diambil</button>
+                    </form>
                 @endif
+
                 @if($p->status == 'siap_diambil')
-
-                <form action="{{ route('kantin.update.status',$p->id_pesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="status" value="selesai">
-                    <button type="submit" class="action-btn btn-selesai">
-                        Selesai
-                    </button>
-                </form>
-
+                    <form action="{{ route('pesanan-masuk.update-status',$p->id_pesanan) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="selesai">
+                        <button type="submit" class="action-btn btn-selesai">Selesai</button>
+                    </form>
                 @endif
+
                 @if($p->status == 'dibatalkan')
-
-                <span class="label-status batal-text">
-                    Pesanan Dibatalkan
-                </span>
-
+                    <span class="label-status batal-text">Pesanan Dibatalkan</span>
                 @endif
+
                 @if($p->status == 'selesai')
-
-                <span class="label-status selesai-text">
-                    Pesanan Selesai
-                </span>
-
+                    <span class="label-status selesai-text">Pesanan Selesai</span>
                 @endif
             </div>
         </div>

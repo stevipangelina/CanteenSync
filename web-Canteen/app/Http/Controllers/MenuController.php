@@ -9,61 +9,72 @@ use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
-    # view menu
-    public function index(Request $request, $id)
-{
-    $kategori = $request->kategori;
-    $kantin = Akun::findOrFail($id);
-    $menu = Menu::where('id_kantin', $id)->when($kategori, function ($query) use ($kategori) {
-            $query->where('kategori', $kategori);
-        })->get();
+    public function lihatMenuMahasiswa(Request $request, $id)
+    {
+        $kantin = Akun::findOrFail($id);
+        $kategori = $request->kategori ?? null;
 
-    // LOGIN SEBAGAI KANTIN
-    if (Auth::check() && Auth::user()->role == 'kantin') {
-        return view('kelola_menu_kantin', compact(
-            'menu', 'id', 'kategori', 'kantin'));
+        $menu = Menu::where('id_kantin', $id)
+                    ->when($kategori, function($query) use ($kategori){
+                        $query->where('kategori', $kategori);
+                    })
+                    ->get();
+
+        return view('menu_kantin', compact('menu','id','kategori','kantin'));
     }
 
-    // LOGIN SEBAGAI MAHASISWA
-    return view('menu_kantin', compact(
-        'menu', 'id', 'kategori', 'kantin'));
-}
-
-    # add menu
-    public function create($id)
+    # view menu
+    public function index(Request $request, $id)
     {
         $kategori = $request->kategori;
         $kantin = Akun::findOrFail($id);
+        $menu = Menu::where('id_kantin', $id)
+                    ->when($kategori, function ($query) use ($kategori) {
+                        $query->where('kategori', $kategori);
+                    })->get();
 
-        $menu = Menu::where('id_kantin', $id)->when($kategori, function ($query) use ($kategori) {$query->where('kategori', $kategori);
-        }) ->get();
+        // LOGIN SEBAGAI KANTIN
+        if (Auth::check() && Auth::user()->role == 'kantin') {
+            return view('kelola_menu_kantin', compact(
+                'menu', 'id', 'kategori', 'kantin'));
+        }
 
-        return view('kelola_menu_kantin', compact(
-            'menu',
-            'id',
-            'kategori',
-            'kantin'
-        ));
+        // LOGIN SEBAGAI MAHASISWA
+        return view('menu_kantin', compact(
+            'menu', 'id', 'kategori', 'kantin'));
     }
 
-    # add menu
+    # view form tambah menu
     public function create($id)
     {
-        $menu = null;
+        $menu = null; 
         return view('form_edit_add_menu', compact('menu','id'));
+    }
+
+    # view kelola menu (mengambil semua menu)
+    public function kelolaMenu($id, Request $request)
+    {
+        $kategori = $request->kategori ?? null;
+        $kantin = Akun::findOrFail($id);
+        $menu = Menu::where('id_kantin', $id)
+                    ->when($kategori, function ($query) use ($kategori) {
+                        $query->where('kategori', $kategori);
+                    })->get();
+
+        return view('kelola_menu_kantin', compact(
+            'menu', 'id', 'kategori', 'kantin'
+        ));
     }
 
     # menyimpan menu
     public function store(Request $request, $id)
     {
         $request->validate([
-
             'nama_menu' => 'required',
             'kategori'  => 'required',
             'harga'     => 'required|numeric',
             'stok'      => 'required|numeric',
             'gambar'    => 'nullable|image|mimes:jpg,jpeg,png'
-
         ]);
 
         $namaFile = null;
@@ -71,8 +82,7 @@ class MenuController extends Controller
         # upload gambar
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
-            $namaFile = time() . '_' .
-                        $file->getClientOriginalName();
+            $namaFile = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('gambar_menu'),$namaFile);
         }
 
@@ -84,10 +94,10 @@ class MenuController extends Controller
             'harga'     => $request->harga,
             'stok'      => $request->stok,
             'gambar'    => $namaFile
-
         ]);
 
-        return redirect('/menu/' . $id) ->with('success', 'Menu berhasil ditambahkan');
+        return redirect('/menu/' . $id)
+            ->with('success', 'Menu berhasil ditambahkan');
     }
 
     # edit menu
@@ -105,8 +115,7 @@ class MenuController extends Controller
 
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
-            $namaFile = time() . '_' .
-                        $file->getClientOriginalName();
+            $namaFile = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('gambar_menu'), $namaFile);
         }
 
@@ -119,7 +128,8 @@ class MenuController extends Controller
             'gambar'    => $namaFile
         ]);
 
-        return redirect('/menu/' . $id) ->with('success', 'Menu berhasil diupdate');
+        return redirect('/menu/' . $id)
+            ->with('success', 'Menu berhasil diupdate');
     }
 
     # hapus menu
@@ -128,8 +138,7 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id_menu);
         $menu->delete();
 
-        return redirect('/menu/' . $id) ->with('success', 'Menu berhasil dihapus');
+        return redirect('/menu/' . $id)
+            ->with('success', 'Menu berhasil dihapus');
     }
 }
-
-
