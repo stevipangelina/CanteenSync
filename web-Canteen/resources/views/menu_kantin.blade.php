@@ -32,7 +32,7 @@
         <a href="{{ route('keranjang.index') }}">🛒</a>
     </div>
 
-    <h1>Daftar Menu<br>Kantin {{ $id }}</h1>
+    <h1>Daftar Menu<br>Kantin </h1>
     @if(session('success'))
         <div class="notif">
             {{ session('success') }}

@@ -50,21 +50,21 @@
     <div class="card-container">
         <div class="card">
             <img src="{{ asset('images/kantin-a.png') }}">
-            <h3>Kantin A</h3>
+            <h3>Kantin Nusantara</h3>
             <a href="{{ route('lihat.menu', ['id' => 1]) }}">
                 <button>Lihat Menu</button>
             </a>
         </div>
         <div class="card">
             <img src="{{ asset('images/kantin-b.png') }}">
-            <h3>Kantin B</h3>
+            <h3>Kantin Sehat</h3>
             <a href="{{ route('lihat.menu', ['id' => 2]) }}">
                 <button>Lihat Menu</button>
             </a>
         </div>
         <div class="card">
             <img src="{{ asset('images/kantin-c.png') }}">
-            <h3>Kantin C</h3>
+            <h3>Kantin Gaul</h3>
             <a href="{{ route('lihat.menu', ['id' => 3]) }}">
                 <button>Lihat Menu</button>
             </a>

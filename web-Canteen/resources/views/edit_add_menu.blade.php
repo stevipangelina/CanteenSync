@@ -16,17 +16,10 @@
 
     <!-- HEADER -->
     <div class="header">
-        <a
-            href="{{ route('kantin.menu.index', $id) }}"
-            class="back-btn"
-        >
-            ←
-        </a>
+        <a href="{{ route('kantin.menu.index', $id) }}" class="back-btn"> ← </a>
 
         <!-- TITLE -->
-        <h1>
-            {{ $menu ? 'Edit Menu' : 'Add New Menu' }}
-        </h1>
+        <h1> {{ $menu ? 'Edit Menu' : 'Add New Menu' }} </h1>
     </div>
 
     <div class="logo">
@@ -98,19 +91,15 @@
         </div>
 
         <label>Foto Menu</label>
-        <div class="upload-box">
-            <div class="upload-left">
-                📷
-                <p>Unggah Foto Menu</p>
-            </div>
-            <div class="upload-right">
-                <input
-                    type="file"
-                    name="gambar"
-                >
-            </div>
+            <div class="upload-box">
+                <div class="upload-left">
+                    <img id="previewImg" src="" alt="" style="display:none; width:80px; border-radius:10px;">
+                    📷
+                    <p>Unggah Foto Menu</p>
+                </div>
 
-        </div>
+                <input type="file" name="gambar" id="gambarInput" class="file-input">
+            </div>
 
         @if($menu && $menu->gambar)
             <div class="preview">
@@ -128,6 +117,21 @@
         </div>
     </form>
 </div>
+
+<script>
+document.getElementById('gambarInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('previewImg');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
 </body>
 </html>

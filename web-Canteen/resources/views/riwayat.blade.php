@@ -56,19 +56,19 @@
                     <option
                         value="1"
                         {{ request('kantin') == 1 ? 'selected' : '' }}>
-                        Kantin A
+                        Kantin Nusantara
                     </option>
 
                     <option
                         value="2"
                         {{ request('kantin') == 2 ? 'selected' : '' }}>
-                        Kantin B
+                        Kantin Sehat
                     </option>
 
                     <option
                         value="3"
                         {{ request('kantin') == 3 ? 'selected' : '' }}>
-                        Kantin C
+                        Kantin Gaul
                     </option>
                 </select>
             </div>
