@@ -48,7 +48,7 @@ class MenuController extends Controller
     public function create($id)
     {
         $menu = null; 
-        return view('form_edit_add_menu', compact('menu','id'));
+        return view('edit_add_menu', compact('menu','id'));
     }
 
     # view kelola menu (mengambil semua menu)
@@ -104,7 +104,7 @@ class MenuController extends Controller
     public function edit($id, $id_menu)
     {
         $menu = Menu::findOrFail($id_menu);
-        return view('form_edit_add_menu', compact('menu', 'id'));
+        return view('edit_add_menu', compact('menu', 'id'));
     }
 
     # update menu
@@ -136,7 +136,11 @@ class MenuController extends Controller
     public function destroy($id, $id_menu)
     {
         $menu = Menu::findOrFail($id_menu);
-        $menu->delete();
+            if ($menu->gambar && file_exists(public_path('gambar_menu/'.$menu->gambar))) {
+                unlink(public_path('gambar_menu/'.$menu->gambar));
+            }
+
+            $menu->delete();
 
         return redirect('/menu/' . $id)
             ->with('success', 'Menu berhasil dihapus');

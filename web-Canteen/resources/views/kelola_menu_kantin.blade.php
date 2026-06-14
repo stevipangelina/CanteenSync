@@ -43,7 +43,7 @@
             <form method="GET" action="{{ route('kantin.menu.index', ['id' => $id]) }}">
                 <label>Kategori :</label>
                 <select name="kategori" onchange="this.form.submit()">
-                    <option value="">Makanan</option>
+                    <option value="">All</option>
                     <option value="makanan" @if($kategori == 'makanan') selected @endif>Makanan</option>
                     <option value="minuman" @if($kategori == 'minuman') selected @endif>Minuman</option>
                     <option value="snack" @if($kategori == 'snack') selected @endif>Snack</option>
